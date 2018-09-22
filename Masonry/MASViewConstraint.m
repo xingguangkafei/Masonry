@@ -44,6 +44,7 @@ static char kInstalledConstraintsKey;
 @property (nonatomic, assign) MASLayoutPriority layoutPriority;
 @property (nonatomic, assign) CGFloat layoutMultiplier;
 @property (nonatomic, assign) CGFloat layoutConstant;
+// layoutRelation 这个值是否设置过
 @property (nonatomic, assign) BOOL hasLayoutRelation;
 @property (nonatomic, strong) id mas_key;
 @property (nonatomic, assign) BOOL useAnimator;
@@ -176,6 +177,7 @@ static char kInstalledConstraintsKey;
 - (MASConstraint * (^)(id, NSLayoutRelation))equalToWithRelation {
     return ^id(id attribute, NSLayoutRelation relation) {
         if ([attribute isKindOfClass:NSArray.class]) {
+            // self.LayoutRelation 这个方法只能走一次，否则，就有矛盾，因为 >=, ==, <= 这三个值只能选一个
             NSAssert(!self.hasLayoutRelation, @"Redefinition of constraint relation");
             NSMutableArray *children = NSMutableArray.new;
             for (id attr in attribute) {
@@ -189,6 +191,7 @@ static char kInstalledConstraintsKey;
             [self.delegate constraint:self shouldBeReplacedWithConstraint:compositeConstraint];
             return compositeConstraint;
         } else {
+            // LayoutRelation设置过，或者，重复设置 且 
             NSAssert(!self.hasLayoutRelation || self.layoutRelation == relation && [attribute isKindOfClass:NSValue.class], @"Redefinition of constraint relation");
             self.layoutRelation = relation;
             self.secondViewAttribute = attribute;
@@ -305,6 +308,7 @@ static char kInstalledConstraintsKey;
     [self uninstall];
 }
 
+// 我想，代码到这里，MASonry的核心已经触及到了。不得不说，mas写好的啊
 - (void)install {
     if (self.hasBeenInstalled) {
         return;

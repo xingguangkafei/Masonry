@@ -171,10 +171,10 @@
 				DD717A4B18442EC600FAA7A8 /* MASConstraintMakerSpec.m */,
 				DD717A4C18442EC600FAA7A8 /* MASViewAttributeSpec.m */,
 				DD717A4D18442EC600FAA7A8 /* MASViewConstraintSpec.m */,
+				3D21C42A1845D0C0001D5F97 /* NSArray+MASAdditionsSpec.m */,
 				DD717A4E18442EC600FAA7A8 /* NSLayoutConstraint+MASDebugAdditionsSpec.m */,
 				DD717A5018442EC600FAA7A8 /* View+MASAdditionsSpec.m */,
 				4473548F1B3A17B4004DACCB /* ViewController+MASAdditionsSpec.m */,
-				3D21C42A1845D0C0001D5F97 /* NSArray+MASAdditionsSpec.m */,
 			);
 			path = Specs;
 			sourceTree = "<group>";

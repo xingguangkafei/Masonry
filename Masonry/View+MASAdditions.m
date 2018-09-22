@@ -9,8 +9,20 @@
 #import "View+MASAdditions.h"
 #import <objc/runtime.h>
 
+// MAS_VIEW 宏定义用来区分ios和mac，在iOS里是UIView
 @implementation MAS_VIEW (MASAdditions)
 
+/*
+ 添加一个实例方法
+ 一个block参数，返回一个数组
+ 1，关闭 AutoresizingMask
+ 2，实例化一个MASConstraintMaker
+ 3，运行block内部代码，开始计算约束
+ 4，约束计算完成开始调用iOS的 +constraintWithItem:。。。实例化 NSLayoutConstrain进行真正的布局参数实例化
+ 
+ [constraintMaker install]
+ 这句代码主要还是调用 MASViewConstrain 的 -install方法实现布局
+ */
 - (NSArray *)mas_makeConstraints:(void(^)(MASConstraintMaker *))block {
     self.translatesAutoresizingMaskIntoConstraints = NO;
     MASConstraintMaker *constraintMaker = [[MASConstraintMaker alloc] initWithView:self];

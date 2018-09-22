@@ -16,7 +16,7 @@
 @implementation MASConstraint
 
 #pragma mark - Init
-
+// 这个类是一个抽象类，只能继承之后，才能初始化使用
 - (id)init {
 	NSAssert(![self isMemberOfClass:[MASConstraint class]], @"MASConstraint is an abstract class, you should not instantiate it directly.");
 	return [super init];
@@ -165,8 +165,8 @@
     return self;
 }
 
-#pragma mark - Chaining
-
+#pragma mark - Chaining : 链接；链锁作用；
+// 用自动布局参数创建一个约束
 - (MASConstraint *)addConstraintWithLayoutAttribute:(NSLayoutAttribute __unused)layoutAttribute {
     MASMethodNotImplemented();
 }

@@ -57,20 +57,31 @@
 }
 
 - (MASConstraint *)constraint:(MASConstraint *)constraint addConstraintWithLayoutAttribute:(NSLayoutAttribute)layoutAttribute {
+    // 创建一个 mas的 View实例
     MASViewAttribute *viewAttribute = [[MASViewAttribute alloc] initWithView:self.view layoutAttribute:layoutAttribute];
+    // 创建一个 mas的 约束实例
     MASViewConstraint *newConstraint = [[MASViewConstraint alloc] initWithFirstViewAttribute:viewAttribute];
+    // 如果是mas或者其子类类型的约束
     if ([constraint isKindOfClass:MASViewConstraint.class]) {
         //replace with composite constraint
+        // 代替 复合约束
         NSArray *children = @[constraint, newConstraint];
+        // 用新旧两个约束创建一个mas组合约束，组合约束的代理设置为自己
         MASCompositeConstraint *compositeConstraint = [[MASCompositeConstraint alloc] initWithChildren:children];
         compositeConstraint.delegate = self;
+        // 用mas组合约束代替传递进来的约束
         [self constraint:constraint shouldBeReplacedWithConstraint:compositeConstraint];
+        // 返回一个组合约束
         return compositeConstraint;
     }
+    // 如果约束为空
     if (!constraint) {
+        // 把新mas约束的代理设置为自己
         newConstraint.delegate = self;
+        // 把新mas约束添加到数组里
         [self.constraints addObject:newConstraint];
     }
+    // 返回一个新mas约束
     return newConstraint;
 }
 
@@ -130,7 +141,13 @@
 }
 
 #pragma mark - standard Attributes
-
+/*
+ 好像是这样的
+ 如果没有调用过top，那么就创建一个新mas约束添加到marker的数组里
+ 如果调用过top，就把以前创建的和现在这个弄成一个组合mas约束，添加到maker的数组里
+ 
+ 返回的是新创建的mas约束，或者一个mas组合约束
+ */
 - (MASConstraint *)addConstraintWithLayoutAttribute:(NSLayoutAttribute)layoutAttribute {
     return [self constraint:nil addConstraintWithLayoutAttribute:layoutAttribute];
 }

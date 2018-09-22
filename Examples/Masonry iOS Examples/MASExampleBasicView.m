@@ -38,6 +38,22 @@
     //if you want to use Masonry without the mas_ prefix
     //define MAS_SHORTHAND before importing Masonry.h see Masonry iOS Examples-Prefix.pch
     [greenView makeConstraints:^(MASConstraintMaker *make) {
+        /*
+         以下代码的核心还是围绕着这个函数来打转
+         +(instancetype)constraintWithItem:(id)view1 attribute:(NSLayoutAttribute)attr1 relatedBy:(NSLayoutRelation)relation toItem:(nullable id)view2 attribute:(NSLayoutAttribute)attr2 multiplier:(CGFloat)multiplier constant:(CGFloat)c;
+
+         这个make.top 实际是返回了一个MASViewConstraint类型的对象，MASViewConstraint 是继承自 MASConstrin 的
+         make.top 可以返回 MASViewConstraint 对象或者 MASCompositeConstraint（同样继承自MASConstrin）
+         MASViewConstraint 主要是描述一个约束，MASCompositeConstraint主要是描述一组约束
+         .top之后呢，就相当于添加了一个约束类型：顶部； .left .right。。。类似
+         .greateThan或者.equalTo主要是 添加一个 NSLayoutRelation 这种类型的参数
+         .offset主要是添加一个constant类型的参数
+         
+         equalTo/ greaterThanOrEqualTo 传递参数可以穿单个，也可以传递数组，主要是是 MASViewConstraint的
+         - (MASConstraint * (^)(id, NSLayoutRelation))equalToWithRelation
+         方法进行了判断处理，单个参数的时候，可以封装一个 MASViewConstraint，多个参数的时候，就分别创建MASViewConstraint，然后添加到 MASCompositeConstraint 这个组合约束中
+         */
+        
         make.top.greaterThanOrEqualTo(superview.top).offset(padding);
         make.left.equalTo(superview.left).offset(padding);
         make.bottom.equalTo(blueView.top).offset(-padding);
@@ -70,5 +86,18 @@
 
     return self;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @end

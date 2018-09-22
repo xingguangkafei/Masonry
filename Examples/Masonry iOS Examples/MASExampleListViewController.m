@@ -31,6 +31,8 @@ static NSString * const kMASCellReuseIdentifier = @"kMASCellReuseIdentifier";
 
 @property (nonatomic, strong) NSArray *exampleControllers;
 
+@property (nonatomic, copy, readonly) MASExampleListViewController *(^testBlock)(int isStop); /**< 123 */
+
 @end
 
 @implementation MASExampleListViewController
@@ -91,7 +93,27 @@ static NSString * const kMASCellReuseIdentifier = @"kMASCellReuseIdentifier";
 
     self.view.backgroundColor = [UIColor whiteColor];
     [self.tableView registerClass:UITableViewCell.class forCellReuseIdentifier:kMASCellReuseIdentifier];
+    
+    int isStop = 99;
+    [[self testBlock](isStop) testBlock];
+    
+    self.testBlock(isStop).testBlock(isStop);
 }
+
+- (MASExampleListViewController *(^)(int isStop))testBlock {
+    return ^MASExampleListViewController *(int retStop) {
+        NSLog(@"%d", retStop);
+        return self;
+    };
+}
+
+- (MASExampleListViewController *(^)(NSValue *value))testBlock2 {
+    return ^MASExampleListViewController *(NSValue *offset) {
+        NSLog(@"%@", offset.class);
+        return self;
+    };
+}
+
 
 #pragma mark - UITableViewDataSource
 

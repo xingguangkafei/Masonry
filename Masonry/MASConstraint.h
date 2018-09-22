@@ -12,15 +12,21 @@
  *	Enables Constraints to be created with chainable syntax
  *  Constraint can represent single NSLayoutConstraint (MASViewConstraint) 
  *  or a group of NSLayoutConstraints (MASComposisteConstraint)
+ 
+ 让约束能够用链式语法创建
+ 约束 能代表一个约束，也能表示一组约束
  */
 @interface MASConstraint : NSObject
 
-// Chaining Support
+// Chaining Support 链式调用支持
 
 /**
  *	Modifies the NSLayoutConstraint constant,
  *  only affects MASConstraints in which the first item's NSLayoutAttribute is one of the following
  *  NSLayoutAttributeTop, NSLayoutAttributeLeft, NSLayoutAttributeBottom, NSLayoutAttributeRight
+ 
+ 修改原生约束类NSLayoutConstraint的常量
+ 
  */
 - (MASConstraint * (^)(MASEdgeInsets insets))insets;
 
@@ -121,6 +127,9 @@
 
 /**
  *	Creates a new MASCompositeConstraint with the called attribute and reciever
+ 
+ 使用被调用的属性和接受者，创建一个新的 (组合约束),
+ 
  */
 - (MASConstraint *)left;
 - (MASConstraint *)top;
@@ -249,12 +258,20 @@
 
 #endif
 
-
+/*
+ boxing
+ n. 拳击；装箱；围模；做箱的材料
+ v. 将…装入盒中（box的ing形式）
+ */
 @interface MASConstraint (AutoboxingSupport)
 
 /**
  *  Aliases to corresponding relation methods (for shorthand macros)
  *  Also needed to aid autocompletion
+ 
+ 别名用来匹配 相关的方法 (用于速记宏)
+ 也被帮助自动计算这块 需要
+ 
  */
 - (MASConstraint * (^)(id attr))mas_equalTo;
 - (MASConstraint * (^)(id attr))mas_greaterThanOrEqualTo;
@@ -262,6 +279,12 @@
 
 /**
  *  A dummy method to aid autocompletion
+ dummy
+ adj. 虚拟的；假的
+ n. 傀儡；哑巴；仿制品
+ 
+ 一个假方法用来辅助自动计算
+ 
  */
 - (MASConstraint * (^)(id offset))mas_offset;
 
